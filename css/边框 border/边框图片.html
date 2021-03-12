@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .borderImg{
+      width: 100px;
+      height: 100px;
+      border: 70px solid;
+      border-image:url(img.jpg) 70 repeat;
+    }
+  </style>
+</head>
+<body>
+  <div class="borderImg"></div>
+  
+</body>
+<script>
+  var img_url = 'http://img.mukewang.com/52e22a1c0001406e03040221.jpg';
+  // 创建对象
+  var img = new Image();
+    
+  // 改变图片的src
+  img.src = img_url;
+    
+  // 加载完成执行
+  img.onload = function(){
+      // 打印
+      console.log('width:'+img.width+',height:'+img.height);
+  }
+</script>
+</html>

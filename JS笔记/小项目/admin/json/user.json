@@ -1,0 +1,25 @@
+[{
+	"id": 1,
+	"name": "郭子宏",
+	"password": "8376ac810bb9f231d28fcf1f",
+	"sex": 0,
+	"email": "g1662980964@163.com",
+	"phone": "15835290103",
+	"departmentId": 1,
+	"jobId": 1,
+	"desc": "该系统最高管理员账户",
+	"time": 1588828520988,
+	"state": 0
+},{
+	"id": 2,
+	"name": "马飞飞",
+	"password": "8376ac810bb9f231d28fcf1f",
+	"sex": 0,
+	"email": "123456789@163.com",
+	"phone": "123456789",
+	"departmentId": 2,
+	"jobId": 3,
+	"desc": "",
+	"time": 1588828520988,
+	"state": 0
+}]

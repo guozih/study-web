@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head> </head>
+  <body>
+    <div class="box">
+      设置抢购时间：<input type="datetime-local" id="time" value="" />
+      <button id="button">确定</button><br />
+      距离抢购时间还剩：
+      <span id="spanBox">00:00:00</span>
+    </div>
+    <script>
+      //获取服务器时间
+      function queryServerTime() {
+        return new Promise((resolve) => {
+          let xhr = new XMLHttpRequest();
+          xhr.open("head", "./data.json");
+          xhr.onreadystatechange = function () {
+            if (!/^(2|3)\d{2}$/.test(xhr.status)) return;
+            if (xhr.readyState === 2) {
+              //响应头信息已经返回 获取服务器返回的date时间
+              let time = xhr.getResponseHeader("date");
+              time = new Date(time);
+              resolve(time);
+            }
+          };
+          xhr.send();
+        });
+      }
+      async function init() {
+        let serverTime = await queryServerTime();
+        //获取当前时间，设置文本内容
+        function getFormat() {
+          let year = serverTime.getFullYear(),
+            month = serverTime.getMonth() + 1,
+            date = serverTime.getDate(),
+            hours = serverTime.getHours(),
+            minutes = serverTime.getMinutes();
+          month = month < 10 ? "0" + month : month;
+          date = date < 10 ? "0" + date : date;
+          hours = hours < 10 ? "0" + hours : hours;
+          minutes = minutes < 10 ? "0" + minutes : minutes;
+          time.value = `${year}-${month}-${date}T${hours}:${minutes}:00`;
+        }
+        getFormat();
+        init = function () {
+          //设置目标值
+          let targetTime = new Date(time.value);
+          function computed() {
+            //相差的毫秒数
+            let spanTime = targetTime - serverTime,
+              //定时器
+              autoTimer = null;
+            if (spanTime <= 0) {
+              //已经到达抢购时间了
+              spanBox.innerHTML = `00:00:00`;
+              clearInterval(autoTimer);
+              return;
+            }
+            //毫秒转化为小时
+            let hours = Math.floor(spanTime / (1000 * 60 * 60));
+            //减去小时占的毫秒数
+            spanTime = spanTime - hours * 1000 * 60 * 60;
+            //分钟
+            let minutes = Math.floor(spanTime / (60 * 1000));
+            spanTime = spanTime - minutes * 60 * 1000;
+            // 秒
+            let seconds = Math.floor(spanTime / 1000);
+            hours = hours < 10 ? "0" + hours : hours;
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+            spanBox.innerHTML = `${hours}:${minutes}:${seconds}`;
+          }
+          computed();
+          autoTimer = setInterval((_) => {
+            //如果从服务器从新获取时间（延迟大，服务器压力也大）
+            // serverTime = await queryServerTime();
+            serverTime = new Date(serverTime.getTime() + 1000);
+            computed();
+          }, 1000);
+        };
+        button.onclick = init;
+      }
+      init();
+    </script>
+  </body>
+</html>

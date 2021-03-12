@@ -1,0 +1,55 @@
+<html lang="en">
+  <body>
+    <script type="text/javascript">
+      /*
+        代码解析阶段
+          浏览器为了满足ES3和ES6的需求，都执行了ES3和ES6的代码
+          ES3规范：var和function的变量提升
+            注意：这里if条件不管成立与否，里面的function都要关联到window下的属性
+            由于var a 和 function a ，名字一样因此，只能是一个a，代码没有执行之前，现在window下有个a的属性，默认为undefined
+          ES6规范：没有变量提升
+        代码执行阶段
+          var a = 0 把window下的 a 属性赋值为0
+          执行判断 条件为 true，执行里面代码
+          ES6规范：
+            代码解析阶段
+              由于大括号是块级作用域，a函数提升，并赋值，因此这个块级作用域里有一个函数 a
+            代码执行阶段
+              a = 1,找到块级作用域里的 a ,之前是一个函数，现在赋值为 1.
+              function a(){},这句话执行,因为之前的条件满足，为了满足ES3的需求，然后找到 a 的值，赋值给window下的 a 属性，
+              由于上一句已经把 a 赋值为 1,因此现在找到的 a 的值也为1，因此，现在把 1赋值给 window 下的 a属性。
+              （注意：函数里的如果是这句话，那么这句话将不执行，因为这个ES3规范，我也不知道为啥）
+              a = 21 ，把块级作用域的 a 修改 为 21
+              console.lg(a) 输出 块级作用域的 a 为 21。
+              执行完毕，块级作用域消失
+              输出 全局下的a 为 1 （最后附上代码，自己看，就明白了）
+        (注意：函数里面有块级作用域时，如果这个函数的形参和这个一样函数名一样，那么这变量将不会被重新赋值)
+      */
+      var a = 0;
+      if (true) {
+        console.log(window.a);
+        a = 1;
+        console.log(window.a);
+        function a() {}
+        console.log(window.a);
+        a = 21;
+        console.log(a);
+      }
+      console.log(a);
+
+      function fun(b){
+        var b;
+        if(true){
+          b = 2;
+          function b(){
+            console.log('我是b，被执行了')
+          }
+          b = 3;
+          console.log(b);
+        }
+        console.log(b);
+      }
+      fun(3);
+    </script>
+  </body>
+</html>

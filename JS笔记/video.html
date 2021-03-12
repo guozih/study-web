@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="file" id="upload" />
+    <button onclick="getTimes()">获取时长</button>
+  </body>
+  <script>
+    function getTimes() {
+      var obj_file = document.getElementById("upload");
+      var content = obj_file.files[0];
+      var url = URL.createObjectURL(content);
+      var imgElement = new Image();
+      imgElement.src = url;
+      imgElement.onload = () => {
+        console.log(imgElement);
+        console.log(imgElement.width);
+        console.log(imgElement.height);
+      };
+      // imgElement.addEventListener("onLoad", function (_event) {
+      //   console.log(imgElement);
+      //   console.log(imgElement.width);
+      //   console.log(imgElement.height);
+      // });
+    }
+  </script>
+</html>
