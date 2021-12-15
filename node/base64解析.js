@@ -10,7 +10,7 @@
 */
 
 const bu = Buffer.from('我');
-console.log(bu);  /* 利用Buffer拿到所表示的的十六进制 */     /*e6 88 91*/
+console.log(bu);  /* 利用Buffer拿到所表示的的十六进制 */   /*e6 88 91*/
 //拿到在内存中显示的二进制
 const two1 = (0xe6).toString(2) /* 11100110 */
 const two2 = (0x88).toString(2) /* 10001000 */
