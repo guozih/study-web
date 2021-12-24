@@ -1,4 +1,5 @@
 function EventEmitter() {
+    console.log('xxxxxxxxxx')
     this._event = {};
 }
 EventEmitter.prototype.on = function (eventName, callback) {
