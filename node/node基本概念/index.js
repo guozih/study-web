@@ -5,8 +5,9 @@
 /*
     node内部【底层】采用多线程，但是主线程是单线程【就是用来调度同步代码和回调函数的】
     多线程的概念：内部操作文件
+    node中为了实现 i/o 操作 自己实现了一个 libuv（事件环）
 */
-/*  node是一个把JS运行再服务器的一个环境，node不去操作DOM和BOM，但是node自己写了一套I/O用于文件操作，是基于事件驱动异步非阻塞I/O
+/*  node是一个把JS运行在服务器的一个环境，node不去操作DOM和BOM，但是node自己写了一套I/O用于文件操作，是基于事件驱动异步非阻塞I/O
         java：默认多线程访问同一个资源，需要加锁【多个人操作一个资源】
               在高并发场景下，多线程在不停的切换时间片【切换时间片：执行一个任务到一半再去执行其他的任务】
             ** 并发：同一时间对同一个服务器同时访问【假设同时发送10个请求，但是服务器还是会一个一个处理】
@@ -22,4 +23,15 @@
         node优点：适合处理请求多，但是处理回调量小的【单线程处理，处理量大的话会导致后边的的回调卡死】
         java优点：适合处理请求多，但是处理回调量大的【多线程同步，一个线程处理事情时，它会一直等待，其他请求让其他线程去处理】
 */
+/* 
+    node为了实现模块化，会在执行代码时，外层包装一个函数，这个函数执行的时候，会改变this指向
+*/
+console.log(this); //这个是 {} 
+function a() {
+    console.log(this);
+}
+a.call(this)  //上边的 console.log(this) 在用 node 执行的时候相当于是这样的
+// console.dir(global, { showHidden: false }); //showHidden 显示隐藏的属性
 
+// __dirname, __filename, exports, module, require 这些都是全局变量，但是不能用 global 去访问【global.__dirname】【这5个全局变量是通过 node 包装的函数传过来的参数】
+// console.log(global.process);
