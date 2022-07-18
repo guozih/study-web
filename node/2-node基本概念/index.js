@@ -1,4 +1,7 @@
 /* 
+    node提示 npm install @types/node【仅仅为了代码提示】
+*/
+/* 
     JS组成  ：DOM，BOM，ECMA
     Node组成：ECMA，内置模块，第三方模块
 */
@@ -26,6 +29,12 @@
 /* 
     node为了实现模块化，会在执行代码时，外层包装一个函数，这个函数执行的时候，会改变this指向
 */
+console.log(__dirname, __filename);
+const { fstat } = require('fs');
+const path = require('path')
+const fs = require('fs')
+// require('./commonjs的实现/a')
+console.log(path.resolve(__dirname, __filename));
 console.log(this); //这个是 {} 
 function a() {
     console.log(this);
